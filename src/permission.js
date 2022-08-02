@@ -9,6 +9,11 @@ router.beforeEach((to, from, next) => {
   // 调用了next进入该路由，如果没有调用则无进入
   const token=store.state.user.token
   if(token){
+    if(!store.state.user.userInfo.userId){
+      // 获取用户信息
+      store.dispatch('user/getUserInfo')  
+    }
+    
     if(to.path==='/login'){
       // 是否进入登录小
       // 1.1是跳到省页
