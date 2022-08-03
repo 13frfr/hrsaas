@@ -14,6 +14,8 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+// 引入抽离的自定义指令
+import * as directives from '@/directives'
 
 // mock假数据
 if (process.env.NODE_ENV === 'production') {
@@ -28,6 +30,11 @@ Vue.use(ElementUI, { locale })
 
 // 关闭生产提示
 Vue.config.productionTip = false
+
+// 遍历引入的自定义指令（自定义指令可能有多个）
+for(let key in directives){
+  Vue.directive(key,directives[key])
+}
 
 new Vue({
   el: '#app',
