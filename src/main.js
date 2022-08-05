@@ -14,8 +14,8 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-// 引入抽离的自定义指令
-import * as directives from '@/directives'
+  // 引入抽离的自定义指令
+  import * as directives from '@/directives'
 
 // mock假数据
 if (process.env.NODE_ENV === 'production') {
