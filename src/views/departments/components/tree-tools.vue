@@ -10,7 +10,9 @@
               操作<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>添加部门</el-dropdown-item>
+              <el-dropdown-item @click.native="$emit('add', treeNode)"
+                >添加部门</el-dropdown-item
+              >
               <template v-if="!isRoot">
                 <el-dropdown-item>编辑部门</el-dropdown-item>
                 <el-dropdown-item @click.native="onRemove"
@@ -26,6 +28,7 @@
 </template>
 
 <script>
+import { delDeptsApi } from "@/api/department";
 export default {
   name: "TreeTools",
   data() {
@@ -53,8 +56,9 @@ export default {
           cancelButtonText: "取消",
           type: "warning",
         });
-        console.log("点击确认删除");
-        console.log(this.treeNode.id);
+        await delDeptsApi(this.treeNode.id);
+        this.$message.success("删除成功");
+        this.$emit("remove");
       } catch (error) {}
     },
   },
