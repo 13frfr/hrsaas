@@ -161,7 +161,7 @@ export default {
       const res = await getCompanyInfoApi(
         this.$store.state.user.userInfo.companyId
       );
-      console.log(res);
+      this.companyInfo = res;
     },
   },
 };
