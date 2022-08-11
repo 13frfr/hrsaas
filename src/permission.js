@@ -4,14 +4,14 @@ import store from '@/store' // 引入vuex store实例
 // 路由(全局)前置守卫
 // 会在所有路由进入前触发
 const witeList=['/login','/404']
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   // 进行了权限控制
   // 调用了next进入该路由，如果没有调用则无进入
   const token=store.state.user.token
   if(token){
     if(!store.state.user.userInfo.userId){
       // 获取用户信息
-      store.dispatch('user/getUserInfo')  
+      await store.dispatch('user/getUserInfo')  
     }
     
     if(to.path==='/login'){
