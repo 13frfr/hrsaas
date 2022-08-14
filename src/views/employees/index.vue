@@ -4,8 +4,15 @@
       <page-tools>
         <span slot="left-tag">共166条记录</span>
         <template slot="right">
-          <el-button size="small" type="warning" @click="$router.push('/import')">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            @click="$router.push('/import')"
+            >导入</el-button
+          >
+          <el-button size="small" type="danger" @click="exportExcel"
+            >导出</el-button
+          >
           <el-button size="small" type="primary" @click="showAdd"
             >新增员工</el-button
           >
@@ -19,7 +26,7 @@
           <el-table-column label="员工">
             <template slot-scope="{ row }">
               <img
-                v-imgError="require('@/assets/common/bigUserHeader.png')"
+                v-imgError="require('@/assets/common/tt.gif')"
                 :src="row.staffPhoto"
                 style="
                   border-radius: 50%;
@@ -97,6 +104,7 @@
 import { getEmployeesInfoApi, delEmployee } from "@/api/employees";
 import employees from "@/constant/employees";
 import AddEmployees from "./components/add-employees.vue";
+const {exportExcelMapPath,hireType} = employees
 export default {
   data() {
     return {
@@ -140,6 +148,35 @@ export default {
     },
     showAdd() {
       this.showAddEmployees = true;
+    },
+    async exportExcel() {
+      const { export_json_to_excel } = await import("@/vendor/Export2Excel");
+      const { rows } = await getEmployeesInfoApi({
+        page: 1,
+        size: this.total,
+      });
+      // 表头数据
+      const header = Object.keys(exportExcelMapPath);
+      // data数据
+      const data = rows.map((item) => {
+        return header.map((h) => {
+          if(h==='聘用形式'){
+            const findItem=hireType.find((hire)=>{
+              return hire.id === item[exportExcelMapPath[h]]
+            })
+            return findItem? findItem.value : "未知";
+          } else{
+            return item[exportExcelMapPath[h]]
+          }
+        });
+      });
+      export_json_to_excel({
+        header, //表头 必填
+        data, //具体数据 必填
+        filename: "员工列表", //非必填
+        autoWidth: true, //非必填
+        bookType: "xlsx", //非必填
+      });
     },
   },
 };
