@@ -64,7 +64,12 @@
           </el-table-column>
           <el-table-column label="操作" sortable="" fixed="right" width="280">
             <template slot-scope="{ row }">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button
+                type="text"
+                size="small"
+                @click="$router.push('/employees/detail/' + row.id)"
+                >查看</el-button
+              >
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
@@ -104,7 +109,7 @@
 import { getEmployeesInfoApi, delEmployee } from "@/api/employees";
 import employees from "@/constant/employees";
 import AddEmployees from "./components/add-employees.vue";
-const {exportExcelMapPath,hireType} = employees
+const { exportExcelMapPath, hireType } = employees;
 export default {
   data() {
     return {
@@ -160,13 +165,13 @@ export default {
       // data数据
       const data = rows.map((item) => {
         return header.map((h) => {
-          if(h==='聘用形式'){
-            const findItem=hireType.find((hire)=>{
-              return hire.id === item[exportExcelMapPath[h]]
-            })
-            return findItem? findItem.value : "未知";
-          } else{
-            return item[exportExcelMapPath[h]]
+          if (h === "聘用形式") {
+            const findItem = hireType.find((hire) => {
+              return hire.id === item[exportExcelMapPath[h]];
+            });
+            return findItem ? findItem.value : "未知";
+          } else {
+            return item[exportExcelMapPath[h]];
           }
         });
       });
