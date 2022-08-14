@@ -4,7 +4,18 @@ export const imgError={
     inserted:function(el,{value}){
       // 聚焦元素
       // 监听dom img 图片加载失败事件
-      el.onerror = function(){
+      if(!el.src){
+        el.src=value
+      } else{
+        el.onerror = function(){
+          el.src=value
+        }
+      }
+      
+    },
+    // 指令所绑定的元素更新时触发
+    update: function(el,{value}){
+      if(!el.src){
         el.src=value
       }
     }

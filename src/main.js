@@ -14,11 +14,26 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-  // 引入抽离的自定义指令
-import * as directives from '@/directives'
 
+// 引入抽离的自定义指令
+import * as directives from '@/directives'
+// 组件
 import components from '@/components'
+// 时间过滤器
+import * as filters from '@/filters'
+
+
+// 遍历引入的自定义指令（自定义指令可能有多个）
+for(let key in directives){
+  Vue.directive(key,directives[key])
+}
+// 统一注册组件
 Vue.use(components)
+// 统一注册过滤器
+for(let key in filters) {
+  Vue.filter(key, filters[key])
+}
+
 
 // mock假数据
 if (process.env.NODE_ENV === 'production') {
@@ -34,10 +49,9 @@ Vue.use(ElementUI, { locale })
 // 关闭生产提示
 Vue.config.productionTip = false
 
-// 遍历引入的自定义指令（自定义指令可能有多个）
-for(let key in directives){
-  Vue.directive(key,directives[key])
-}
+
+
+
 
 new Vue({
   el: '#app',
