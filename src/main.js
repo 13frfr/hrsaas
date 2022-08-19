@@ -22,6 +22,11 @@ import components from '@/components'
 // 时间过滤器
 import * as filters from '@/filters'
 
+import Print from 'vue-print-nb'
+// Global instruction 
+
+
+
 
 // 遍历引入的自定义指令（自定义指令可能有多个）
 for(let key in directives){
@@ -33,6 +38,8 @@ Vue.use(components)
 for(let key in filters) {
   Vue.filter(key, filters[key])
 }
+
+Vue.use(Print);
 
 
 // mock假数据

@@ -28,7 +28,9 @@
           <el-tab-pane name="user" label="个人详情">
             <UserInfo></UserInfo>
           </el-tab-pane>
-          <el-tab-pane name="job" label="岗位信息" />
+          <el-tab-pane name="job" label="岗位信息" >
+            <jobInfo/>
+          </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
@@ -38,12 +40,14 @@
 <script>
 import { getUserDetail, saveUserDetailById } from "@/api/user";
 import UserInfo from "./components/user-info.vue";
+import jobInfo from "./components/job-info.vue";
 import Cookies from "js-cookie";
 export default {
   //import引入的组件需要注入到对象中才能使用
   name: "wwww",
   components: {
     UserInfo,
+    jobInfo
   },
   data() {
     //这里存放数据
