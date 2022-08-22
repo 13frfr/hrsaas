@@ -8,12 +8,17 @@
             size="small"
             type="warning"
             @click="$router.push('/import')"
+            v-isHas="point.employees.import"
             >导入</el-button
           >
           <el-button size="small" type="danger" @click="exportExcel"
             >导出</el-button
           >
-          <el-button size="small" type="primary" @click="showAdd"
+          <el-button
+            size="small"
+            type="primary"
+            @click="showAdd"
+            v-if="isHas(point.employees.add)"
             >新增员工</el-button
           >
         </template>
@@ -74,7 +79,12 @@
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small" @click="showAssignDialog(row.id)">角色</el-button>
+              <el-button
+                type="text"
+                size="small"
+                @click="showAssignDialog(row.id)"
+                >角色</el-button
+              >
               <el-button type="text" size="small" @click="onRemove(row.id)"
                 >删除</el-button
               >
@@ -108,7 +118,10 @@
       <canvas id="canvas" />
     </el-dialog>
     <!-- 分配角色 -->
-    <AssignRole :visible.sync="showAssignRole" :employeesId="currentEmployeesId"></AssignRole>
+    <AssignRole
+      :visible.sync="showAssignRole"
+      :employeesId="currentEmployeesId"
+    ></AssignRole>
   </div>
 </template>
 
@@ -119,7 +132,9 @@ import AddEmployees from "./components/add-employees.vue";
 import AssignRole from "./components/assign-role.vue";
 const { exportExcelMapPath, hireType } = employees;
 import QRcode from "qrcode";
+import MixinPermission from "@/mixins/permission";
 export default {
+  mixins: [MixinPermission],
   data() {
     return {
       employees: [],
@@ -130,8 +145,8 @@ export default {
       total: 0,
       showAddEmployees: false,
       ercodeDialog: false,
-      showAssignRole:false,
-      currentEmployeesId:''
+      showAssignRole: false,
+      currentEmployeesId: "",
     };
   },
 
@@ -140,7 +155,7 @@ export default {
   },
   components: {
     AddEmployees,
-    AssignRole
+    AssignRole,
   },
 
   methods: {
@@ -207,10 +222,10 @@ export default {
       });
     },
     // 点击角色显示弹层
-    showAssignDialog(id){
-      this.showAssignRole=true
-      this.currentEmployeesId=id
-    }
+    showAssignDialog(id) {
+      this.showAssignRole = true;
+      this.currentEmployeesId = id;
+    },
   },
 };
 </script>

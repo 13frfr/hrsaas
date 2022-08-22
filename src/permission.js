@@ -1,4 +1,4 @@
-import router from '@/router' // 引入路由实例
+import router,{asyncRoutes} from '@/router' // 引入路由实例
 import store from '@/store' // 引入vuex store实例
 
 // 路由(全局)前置守卫
@@ -10,8 +10,13 @@ router.beforeEach(async(to, from, next) => {
   const token=store.state.user.token
   if(token){
     if(!store.state.user.userInfo.userId){
-      // 获取用户信息
-      await store.dispatch('user/getUserInfo')  
+      // 获取用户信息 store.dispatch的返回值是promise
+      const {roles}=await store.dispatch('user/getUserInfo')  
+      // console.log(roles);
+      // console.log(asyncRoutes );
+     await store.dispatch('permission/filterRoutes',roles)
+     await store.dispatch('permission/setPointsAction',roles.points)
+      next(to.path)
     }
     
     if(to.path==='/login'){
