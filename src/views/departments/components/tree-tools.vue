@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import { delDeptsApi } from "@/api/department";
+import { delDeptsApi } from '@/api/departments'
 export default {
-  name: "TreeTools",
+  name: 'TreeTools',
   data() {
-    return {};
+    return {}
   },
 
   props: {
@@ -53,18 +53,18 @@ export default {
   methods: {
     async onRemove() {
       try {
-        await this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        });
-        await delDeptsApi(this.treeNode.id);
-        this.$message.success("删除成功");
-        this.$emit("remove");
-      } catch (error) {}
+        await this.$confirm('此操作将永久删除该部门, 是否继续?', '提示', {
+          confirmButtonText: '删除',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+        await delDeptsApi(this.treeNode.id)
+        this.$message.success('删除成功')
+        this.$emit('remove')
+      } catch (err) {}
     },
   },
-};
+}
 </script>
 
-<style scoped></style>
+<style scoped lang="less"></style>
